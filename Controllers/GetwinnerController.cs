@@ -1,0 +1,36 @@
+using Microsoft.AspNetCore.Mvc;
+using cs_web_voting.Singletons;
+using cs_web_voting.Data;
+using cs_web_voting.Models;
+using System.Text.Json;
+
+namespace cs_web_voting.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class GetwinnerController : ControllerBase
+{
+    private readonly CsWebVotingDbContext _dbContext;
+
+    public GetwinnerController(CsWebVotingDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    //[HttpGet("{imageName}")]
+    [HttpGet]
+    public IActionResult GetWinner()
+    {
+        // Assuming SharedData.NominatedMaps is a List<string>
+        var winner = _dbContext.votes.OrderByDescending(obj => obj.VoteAmount).Take(1).ToList();
+        // Create an array of objects with Id and Name fields
+        
+        foreach (var item in winner)
+            {
+                Console.WriteLine($"Name: {item.Name}, Count: {item.VoteAmount}");
+            }
+        //Take nominated array from the singleton and create an object out of it.
+        string jsonContent = JsonSerializer.Serialize(winner);
+        // Set the appropriate content type for the image
+        return Content(jsonContent, "application/json");
+    }
+}

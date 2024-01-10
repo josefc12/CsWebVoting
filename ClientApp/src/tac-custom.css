@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+html {
+  height: 100%;
+  scrollbar-color: rgba(155, 183, 98, 0.5) rgba(11, 14, 14, 0.54);
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(0deg, #0f1015 0%, rgba(38, 50, 46, 0.89) 100%);
+  /* Dotted Overlay */
+&::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, #0000001c 1px, transparent 1px);
+  background-size: 4px 4px; /* Adjust the size of the dots as needed */
+  pointer-events: none; /* Ensure the overlay doesn't interfere with interactions */
+  z-index: -1;
+  }
+  }
+.main{
+  display: flex;
+  height: 100vh;
+}
+.main.menu{
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.main.room{
+  justify-content: top;
+  align-items: center;
+  flex-direction: column;
+}
+input[type='checkbox']{
+  appearance: none;
+  background-color: rgba(21, 26, 28, 0.4);
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(233, 255, 172, 0.8);
+  border-radius: 5px;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+  
+}
+.form-control + .form-control {
+  margin-top: 1em;
+}
+input[type="checkbox"]::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: rgba(233, 255, 172, 0.8);
+  transform-origin: bottom left;
+  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+}
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+.cnstr-div-titles{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: top;
+  width: 282px;
+  height: auto;
+}
+.cnstr-div-titles.header{
+  width: fit-content;
+  height: fit-content;
+}
+.tacback {
+  background: linear-gradient(0deg, rgba(29, 30, 30, 0.73) 0%, rgba(25, 41, 41, 0.56) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.205);
+  border-radius: 6px;
+
+}
+.tacback-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 282px;
+  height: 132px;
+}
+.tacback-map {
+  color:white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  width: 114px;
+  min-width: 114px;
+  height: 140px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.tacback-maptag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.tacback-maptag p {
+  margin: 0; /* Reset margin to zero */
+  padding: 0; /* Reset padding to zero */
+  padding-right: 12px;
+}
+
+.tacback-maptag.player {
+  align-items: left;
+  justify-content: space-between;
+}
+
+h1, h4 {
+  color: #d6dde7;
+  margin: 0px;
+  padding: 0px;
+}
+h1{
+  font-weight: 600;
+}
+h6{
+  color: rgba(233, 255, 172, 0.8);
+}
+
+.inputbar{
+
+}
+.test{
+
+}
+.tacinput{
+  background-color: rgba(21, 26, 28, 1);
+  border: 1px solid rgba(255, 255, 255, 0.205);
+  border-radius: 6px;
+  height: 30px;
+}
+.tacloginform{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+::placeholder {
+  font-style: italic;
+} 
+.tacloginform input{
+  text-align: center;
+  color: rgba(233, 255, 172, 0.8);
+  margin:5px;
+}
+.tacloginform input:focus{
+  outline: 1px dotted rgba(155, 183, 98, 0.8);
+}
+.tacbutton{
+  color: #d6dde7;
+  background-color: rgba(155, 183, 98, 0.13);
+  border: 1px solid rgba(233, 255, 172, 0.8);
+  border-radius: 6px;
+  width: auto;
+  min-width: 73px;
+  height: 30px;
+  margin: 5px;
+  transition: 0.2s ease-in-out;
+}
+.tacbutton:hover{
+  background-color: rgba(155, 183, 98, 0.5);
+}
+.testheader{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  width: 1024px;
+  height: 112px;
+}
+.content{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  width: 1024px;
+  height: 700px;
+}
+.pane{
+  display: flex;
+  height: 100%;
+}
+.pane.left{
+  flex-direction: column;
+  align-items: top;
+  width: 25%;
+  height: 100%;
+  
+}
+.pane.right{
+  flex-direction: column;
+  width: 75%;
+  height: 100%;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.cont{
+  background-color: rgba(21, 26, 28, 0.4);
+}
+.cont.player{
+  display:flex;
+  flex-direction: column;
+  color: rgba(233, 255, 172, 0.8);
+  background-color: rgba(21, 26, 28, 0.40);
+  height: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.cont.player p{
+  color: #d6dde7;
+}
+.cont.log{
+  display:flex;
+  flex-direction: column;
+  color: rgba(233, 255, 172, 0.8);
+  padding: 8px;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.cont.log p{
+  margin:0px;
+  color: #d6dde7;
+  font-size: 12px;
+}
+.cont.tacheading{
+  color:rgba(233, 255, 172, 0.8);
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  height:42px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+.cont.tacheading p{
+  padding: 0px;
+  margin: 0px;
+  padding-right: 10px;
+}
+.dyno{
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.dyno-bot{
+  color:white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  justify-content: center;
+  align-items: center;
+  height:50%;
+  width:auto;
+  row-gap: 10px;
+  column-gap: 30px;
+  background-color: rgba(21, 26, 28, 0.4);
+}
+.dyno-map-ribbon{
+  color:white;
+  display:flex;
+  flex-direction: row;
+  background-color: rgba(21, 26, 28, 0.40);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  
+}
+.dyno-choice-ribbon{
+  margin-top:18px;
+  color:white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.dyno-nominate-ribbon{
+  color:white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top:8px;
+  align-items: center;
+  width: 100%;
+}
+.dyno-nominate-ribbon p{
+  margin:0px;
+  padding:0px;
+}
+.dyno-content{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.dyno-title{
+  color: rgba(233, 255, 172, 0.8);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  background-color: rgba(21, 26, 28, 0.40);
+}
+.admin{
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  width: 1024px;
+  height: 42px;
+  color: white;
+}
+.admin input{
+  text-align: center;
+  color: rgba(233, 255, 172, 0.8);
+  margin:5px;
+  width:152px;
+}
+
+

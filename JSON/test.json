@@ -1,0 +1,52 @@
+[
+    {
+        "Id": 0,
+        "Name": "de_dust2",
+        "Selected": false
+    },
+    {
+        "Id": 1,
+        "Name": "cs_office",
+        "Selected": true
+    },
+    {
+        "Id": 2,
+        "Name": "de_inferno",
+        "Selected": false
+    },
+    {
+        "Id": 4,
+        "Name": "de_mirage",
+        "Selected": false
+    },
+    {
+        "Id": 5,
+        "Name": "fy_poolday",
+        "Selected": false
+    },
+    {
+        "Id": 6,
+        "Name": "de_nuke",
+        "Selected": false
+    },
+    {
+        "Id": 7,
+        "Name": "cs_italy",
+        "Selected": false
+    },
+    {
+        "Id": 8,
+        "Name": "de_cache",
+        "Selected": false
+    },
+    {
+        "Id": 9,
+        "Name": "de_vertigo",
+        "Selected": false
+    },
+    {
+        "Id": 10,
+        "Name": "de_anubis",
+        "Selected": false
+    }
+]
