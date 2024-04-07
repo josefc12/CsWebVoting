@@ -1,8 +1,9 @@
-# cs_web_voting
+# Counter-Strike Web Voting
 
 ![Image of the nominating stage in cs_web_voting app](https://github.com/josefc12/cs_web_voting/blob/main/Images/cs_web_voting_Nominating.png)  
 
-A web app for voting over cs maps  
+A web app for voting over Counter-Strike maps  
+- or anything else that has a nominating stage and a voting stage in the span of ~3 minutes.  
 Check license.
 
 Depends on:  
