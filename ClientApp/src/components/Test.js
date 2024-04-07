@@ -1,5 +1,4 @@
 import React, {Component, component} from 'react';
-import testImg from '../images/test.JPG'
 import { NavMenu } from './NavMenu';
 
 export class Test extends Component {

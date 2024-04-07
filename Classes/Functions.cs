@@ -7,7 +7,7 @@ using SignalRChat.Hubs;
 namespace cs_web_voting.Functions;
 public static class CommonFunctions
 {
-    public static void ForwardStage(CsWebVotingDbContext database, IHubContext<ChatHub> hub, string roomname)
+    public static void ForwardStage(CsWebVotingDbContext database, IHubContext<RoomHub> hub, string roomname)
     {
         //Check current stage
         var currentSession = database.sessions.FirstOrDefault(s => s.Name == roomname);

@@ -7,11 +7,11 @@ namespace cs_web_voting.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ImageController : ControllerBase
+public class MapsController : ControllerBase
 {
     private readonly CsWebVotingDbContext _dbContext;
 
-    public ImageController(CsWebVotingDbContext dbContext)
+    public MapsController(CsWebVotingDbContext dbContext)
     {
         _dbContext = dbContext;
     }

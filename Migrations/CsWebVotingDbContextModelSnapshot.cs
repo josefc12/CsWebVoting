@@ -20,19 +20,116 @@ namespace cs_web_voting.Migrations
 
             modelBuilder.Entity("cs_web_voting.Models.Maps", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("type")
+                    b.Property<string>("Type")
                         .HasColumnType("longtext");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("Maps");
+                    b.ToTable("maps");
+                });
+
+            modelBuilder.Entity("cs_web_voting.Models.Nominations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("nominations");
+                });
+
+            modelBuilder.Entity("cs_web_voting.Models.Passwords", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("passwords");
+                });
+
+            modelBuilder.Entity("cs_web_voting.Models.Sessions", b =>
+                {
+                    b.Property<int>("SessionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Stage")
+                        .HasColumnType("int");
+
+                    b.HasKey("SessionID");
+
+                    b.ToTable("sessions");
+                });
+
+            modelBuilder.Entity("cs_web_voting.Models.Voters", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Admin")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConnectionID")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("NmntAmnt")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SessionID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VtAmnt")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("voters");
+                });
+
+            modelBuilder.Entity("cs_web_voting.Models.Votes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VoteAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("votes");
                 });
 #pragma warning restore 612, 618
         }

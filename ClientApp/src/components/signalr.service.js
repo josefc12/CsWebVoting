@@ -6,7 +6,7 @@ class SignalRService {
         // Create a SignalR connection
         //This has to change when publishing to port 5000 or whatever
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7292/chatHub")
+            .withUrl("https://localhost:7292/RoomHub")
             .build();
     }
 

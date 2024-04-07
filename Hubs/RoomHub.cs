@@ -7,13 +7,13 @@ using cs_web_voting.Functions;
 
 namespace SignalRChat.Hubs
 {
-    public class ChatHub : Hub
+    public class RoomHub : Hub
     {   
 
-        private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IHubContext<RoomHub> _hubContext;
         private readonly CsWebVotingDbContext _dbContext;
 
-        public ChatHub(CsWebVotingDbContext dbContext, IHubContext<ChatHub> hubContext)
+        public RoomHub(CsWebVotingDbContext dbContext, IHubContext<RoomHub> hubContext)
         {
             _dbContext = dbContext;
             _hubContext = hubContext;

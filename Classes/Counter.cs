@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 public class Counter : IHostedService
 {
-    private readonly IHubContext<ChatHub> _hubContext;
+    private readonly IHubContext<RoomHub> _hubContext;
     private readonly IServiceScopeFactory _scopeFactory;
 
-    public Counter(IHubContext<ChatHub> hubContext, IServiceScopeFactory scopeFactory)
+    public Counter(IHubContext<RoomHub> hubContext, IServiceScopeFactory scopeFactory)
     {
         _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
         _scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));

@@ -39,7 +39,7 @@ export class RoomContentNominating extends Component {
 
     spawnComponent = async () => {
         try {
-            const response = await fetch('https://localhost:7292/image');
+            const response = await fetch('https://localhost:7292/maps');
             const data = await response.json();
             //const imageUrl = URL.createObjectURL(blob);
             this.setState({ jsonData: data });
