@@ -2,9 +2,6 @@
 A web app for voting over cs maps
 Check license.
 
-version 1.0.0:
-The code base needs revision. It's in a very crap state :/.
-
 Depends on:
 nodejs (sudo apt install nodejs)
 npm (sudo apt install npm)
