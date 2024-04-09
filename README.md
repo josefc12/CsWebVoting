@@ -6,6 +6,9 @@ A web app for voting over Counter-Strike maps
 - or anything else that has a nominating stage and a voting stage in the span of ~3 minutes.  
 Check license.
 
+${\color{red}ATTENTION:}$  
+${\color{red}CODE\space ISN'T\space VERY\space DRY\space AND\space WILL\space BE\space REORGANIZED\space ASAP}$  
+
 Depends on:  
 nodejs (```sudo apt install nodejs```)  
 npm (```sudo apt install npm```)  
