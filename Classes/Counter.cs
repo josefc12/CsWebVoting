@@ -2,12 +2,7 @@ using cs_web_voting.Data;
 using cs_web_voting.Functions;
 using cs_web_voting.Singletons;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Hosting;
 using SignalRChat.Hubs;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class Counter : IHostedService
 {
@@ -22,7 +17,7 @@ public class Counter : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        // Start your background task when the application starts
+        // Start the background task when the application starts
         Task.Run(() => UpdateCountdowns(cancellationToken), cancellationToken);
 
         return Task.CompletedTask;
@@ -33,26 +28,29 @@ public class Counter : IHostedService
         // Perform cleanup or finalization if needed
         return Task.CompletedTask;
     }
-
-    private async Task UpdateCountdown(string roomname, CsWebVotingDbContext dbContext)
+    
+    private void UpdateCountdown(string roomname, CsWebVotingDbContext dbContext)
     {
-        Console.WriteLine(SharedData.countdowns[roomname].Mode.ToString());
+        //Print the mode of sessions into the console.
+        //Console.WriteLine(SharedData.countdowns[roomname].Mode.ToString());
         // If the session isn't paused
         if (SharedData.countdowns[roomname].Mode == 1)
         {
-            // Check if the countdown has reached zero and take appropriate action
+            // Check if the countdown has reached zero
             if (SharedData.countdowns[roomname].Countdown <= 0)
             {
+                //If so, forward the stage
                 CommonFunctions.ForwardStage(dbContext, _hubContext, roomname);
             }
             else
             {
+                //Else keep counting down
                 SharedData.countdowns[roomname].Countdown -= 1;
             }
         }
     }
 
-    // Background task to update countdowns periodically
+    // Background task to update countdowns
     private async Task UpdateCountdowns(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
@@ -65,7 +63,7 @@ public class Counter : IHostedService
                 {
                     foreach (var roomname in SharedData.countdowns.Keys.ToList())
                     {
-                        await UpdateCountdown(roomname, dbContext);
+                        UpdateCountdown(roomname, dbContext);
                     }
                 }
             }

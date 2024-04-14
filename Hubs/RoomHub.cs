@@ -30,7 +30,7 @@ namespace SignalRChat.Hubs
                 await Groups.AddToGroupAsync(Context.ConnectionId, roomname);
 
                 //Check if such group already exists
-                Sessions newSession = null;
+                Sessions? newSession = null;
                 //If it doesn't exist, add it:
                 if(!_dbContext.sessions.Any(n => n.Name == roomname)){
                     newSession = new Sessions
@@ -54,7 +54,7 @@ namespace SignalRChat.Hubs
 
                 //Add the user into the voters table.
                 var record = _dbContext.sessions.FirstOrDefault(s => s.Name == roomname);
-                Voters newVoter = null;
+                Voters? newVoter = null;
                 //If there isn't a user with the same nickname yet:
                 if(!_dbContext.voters.Any(n => n.Name == user && n.SessionID == record.SessionID)){
                     newVoter = new Voters
@@ -87,8 +87,8 @@ namespace SignalRChat.Hubs
         //This pool is created from nominations when forwarding to stage 2
         public async Task RequestVotingPool()
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var sessionID = voter.SessionID;
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var sessionID = voter?.SessionID;
 
             var initPool = _dbContext.votes?.Where(h => h.SessionId == sessionID).ToList();
             if (initPool == null)
@@ -101,8 +101,8 @@ namespace SignalRChat.Hubs
 
         public async Task RequestTop3()
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var sessionID = voter.SessionID;
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var sessionID = voter?.SessionID;
 
             var scoredVotes = _dbContext.votes?.Where(h => h.SessionId == sessionID).ToList().OrderByDescending(obj => obj.VoteAmount).Take(3).ToList();
             var topVotesJson = JsonSerializer.Serialize(scoredVotes);
@@ -113,11 +113,11 @@ namespace SignalRChat.Hubs
         // /Room automatically asks for this information
         public async Task ServeRoomInformation()
         {
-            var user = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var user = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
             //Gather session information
-            var record = _dbContext.sessions.FirstOrDefault(s => s.SessionID == user.SessionID);
+            var record = _dbContext.sessions?.FirstOrDefault(s => s.SessionID == user.SessionID);
 
-            CurrentSession currentSession = null;
+            CurrentSession? currentSession = null;
             if(record != null){
                 currentSession = new CurrentSession 
                 {
@@ -128,18 +128,20 @@ namespace SignalRChat.Hubs
                     MyName = user.Name,
                 };
             }
+            /*
             Console.WriteLine(SharedData.countdowns[record.Name].ToString() + " amount of count down");
             foreach (var key in SharedData.countdowns.Keys.ToList())
             {
                 Console.WriteLine(key);
             }
-            Console.WriteLine(currentSession.Timeleft);
+            Console.WriteLine(currentSession?.Timeleft);
+            */
             //Send back to the connection:
             var currentSessionJson = JsonSerializer.Serialize(currentSession);
             Console.WriteLine(currentSessionJson);
 
             var adCheck = false;
-            if (_dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId).Admin == 1){
+            if (_dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId).Admin == 1){
                 adCheck = true;
             } else {
                 adCheck = false;
@@ -156,35 +158,39 @@ namespace SignalRChat.Hubs
         public async Task RequestWinner()
         {
 
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var sessionID = voter.SessionID;
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var sessionID = voter?.SessionID;
 
-            var winner = _dbContext.votes.Where(b => b.SessionId == sessionID).OrderByDescending(obj => obj.VoteAmount).Take(1).ToList();
+            var winner = _dbContext.votes?.Where(b => b.SessionId == sessionID).OrderByDescending(obj => obj.VoteAmount).Take(1).ToList();
             var winnerJson = JsonSerializer.Serialize(winner);
             await Clients.Client(Context.ConnectionId).SendAsync("UpdateWinner", winnerJson);
 
         }
 
         //Receive signal to forward a stage.
-        public async Task RequestForwardStage()
+        public void RequestForwardStage()
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var sessionID = voter.SessionID;
-            var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
-            var roomname = session.Name;
-            if (voter.Admin == 1 && session.Stage != 3){
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var sessionID = voter?.SessionID;
+
+            var session = _dbContext.sessions?.FirstOrDefault(s => s.SessionID == sessionID);
+            var roomname = session?.Name;
+            if (voter?.Admin == 1 && session?.Stage != 3)
+            {
                 CommonFunctions.ForwardStage(_dbContext, _hubContext, roomname);
             }
-            
+
         }
-        
+
         public async Task RequestStagePlayback(bool mode)
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var voterName = voter.Name;
-            var sessionID = voter.SessionID;
-            var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
-            var roomname = session.Name;
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var voterName = voter?.Name;
+
+            var sessionID = voter?.SessionID;
+            var session = _dbContext.sessions?.FirstOrDefault(s => s.SessionID == sessionID);
+
+            var roomname = session?.Name;
             var msgMode = "";
 
             int trMode = new();
@@ -211,7 +217,7 @@ namespace SignalRChat.Hubs
         
         public async Task SubmitAdminPassword(string password)
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId); 
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId); 
             //Is the password correct?
             if (_dbContext.passwords.Any(s => s.Password == password)){
                 voter.Admin = 1;
@@ -223,12 +229,12 @@ namespace SignalRChat.Hubs
         }
         public async Task SubmitVote(string singleVote)
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var voterName = voter.Name;
-            var sessionID = voter.SessionID;
-            var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
-            var roomname = session.Name;
-            if(session.Stage == 2 && voter.VtAmnt <1)
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var voterName = voter?.Name;
+            var sessionID = voter?.SessionID;
+            var session = _dbContext.sessions?.FirstOrDefault(s => s.SessionID == sessionID);
+            var roomname = session?.Name;
+            if(session?.Stage == 2 && voter?.VtAmnt <1)
             {
                 //Check if the voted map is actually in the nomiated maps
                 //If so, increase it's count
@@ -245,7 +251,7 @@ namespace SignalRChat.Hubs
                     //Send the whole thing (for now)
                     var initPool = _dbContext.votes?.Where(h => h.SessionId == sessionID).ToList();
                     var votingPoolJson = JsonSerializer.Serialize(initPool);
-                    var logString = string.Format("{0} VOTED for {1}.",voterName.ToString(),singleVote);
+                    var logString = string.Format("{0} VOTED for {1}.",voterName?.ToString(),singleVote);
                     await Clients.Group(roomname).SendAsync("UpdateVotingPool", votingPoolJson, logString);
 
                     //Send top 3
@@ -263,11 +269,13 @@ namespace SignalRChat.Hubs
         }
         public async Task SubmitNominations(string[] nominatedMaps)
         {
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
-            var voterName = voter.Name;
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var voterName = voter?.Name;
+
             var sessionID = voter.SessionID;
-            var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
-            var roomname = session.Name;
+            var session = _dbContext.sessions?.FirstOrDefault(s => s.SessionID == sessionID);
+
+            var roomname = session?.Name;
 
             if (nominatedMaps.Length > 3)
             {
@@ -275,7 +283,7 @@ namespace SignalRChat.Hubs
                 Array.Copy(nominatedMaps, nominatedMaps, 3);
             }
 
-            if(session.Stage == 1 && voter.NmntAmnt <1){
+            if(session?.Stage == 1 && voter?.NmntAmnt <1){
                 List<string> nominatedMapsList = nominatedMaps.ToList();
                 //Save into database for user logging mid/nomination:
                 //First, filter out those that have already been nominated:
@@ -292,12 +300,12 @@ namespace SignalRChat.Hubs
                     };
                     if (newNomination != null)
                     {
-                        _dbContext.nominations.Add(newNomination);
+                        _dbContext.nominations?.Add(newNomination);
                     }
                 }
                 voter.NmntAmnt +=1;
                 _dbContext.SaveChanges();
-                var currentNominationsJson = JsonSerializer.Serialize(_dbContext.nominations.Where(s => s.SessionId == sessionID).ToList());
+                var currentNominationsJson = JsonSerializer.Serialize(_dbContext.nominations?.Where(s => s.SessionId == sessionID).ToList());
                 //Hub send out an update with these nominations:
                 var logString = string.Format("{0} NOMINATED: {1}.",voterName.ToString(), string.Join(", ", nominatedMaps));
                 await Clients.Group(roomname).SendAsync("UpdateNominations", currentNominationsJson, logString);
@@ -312,8 +320,10 @@ namespace SignalRChat.Hubs
         
         public async Task RemoveVoter(string name){
             var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+
             var sessionID = voter.SessionID;
             var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
+            
             var roomname = session.Name;
             if(voter.Admin == 1){
                 var voterToRemove = _dbContext.voters.FirstOrDefault(s => s.Name == name && s.SessionID == sessionID);
@@ -332,7 +342,7 @@ namespace SignalRChat.Hubs
         public async Task RemoveNomination(string nomination)
         {
             Console.WriteLine("test");
-            var voter = _dbContext.voters.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
+            var voter = _dbContext.voters?.FirstOrDefault(s => s.ConnectionID == Context.ConnectionId);
             var voterName = voter.Name;
             var sessionID = voter.SessionID;
             var session = _dbContext.sessions.FirstOrDefault(s => s.SessionID == sessionID);
@@ -353,13 +363,10 @@ namespace SignalRChat.Hubs
             
         }
         //When someone disconnects, delete them from voters
-        //If they were last voter with the sessionID, delete the session from the sessions table.
+        //If they were the last voter with the sessionID, delete the session from the sessions table.
         //Don't have to remove this user from SignalR groups or delete the SignalR group, that's done automatically
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            //Do only if the connection is actually in a group.
-            // Perform tasks when a client disconnects
-            // For example, remove the user from a group or update user status
 
             // Access the connection ID of the disconnected client
             var connectionId = Context.ConnectionId;

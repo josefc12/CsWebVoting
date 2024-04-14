@@ -9,7 +9,6 @@ namespace cs_web_voting.Singletons
         
         
     }
-    // Your MyObject class
     public class VoteObject
     {
         [System.Text.Json.Serialization.JsonPropertyName("Name")]

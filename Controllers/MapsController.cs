@@ -15,16 +15,12 @@ public class MapsController : ControllerBase
     {
         _dbContext = dbContext;
     }
-    //[HttpGet("{imageName}")]
+
     [HttpGet]
-    public IActionResult GetImage()
+    public IActionResult GetMaps()
     {
         
-       var maps = _dbContext.maps?.ToList();
-        if (maps == null)
-        {
-            maps = new List<Maps>();
-        }
+        var maps = (_dbContext.maps?.ToList()) ?? new List<Maps>();
         string jsonContent = JsonSerializer.Serialize(maps);
         return Content(jsonContent, "application/json");
         

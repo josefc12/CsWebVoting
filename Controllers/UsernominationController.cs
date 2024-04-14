@@ -15,59 +15,47 @@ public class UsernominationController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpPost] // This attribute specifies that this method handles HTTP POST requests
+    [HttpPost]
     public IActionResult PostData([FromBody] JsonDocument requestData)
     {
         
         try
         {
-            /*
-            string jsonString = requestData.RootElement.ToString();
-            SharedData.JsonData = jsonString;
-            var nominatedMaps = requestData.RootElement.EnumerateArray()
-                .Select(element => element.GetString())
-                .ToList();
-
-            SharedData.NominatedMaps.AddRange(nominatedMaps.Except(SharedData.NominatedMaps).Where(map => map != null).Select(map => map!));
-
-            foreach (var map in SharedData.NominatedMaps)
-            {
-                Console.WriteLine(map);
-            }
-            */
             //Save into database for user logging mid/nomination:
             //First, filter out those that have already been nominated:
             var nominatedMaps = requestData.RootElement.EnumerateArray().Select(element => element.GetString()).ToList();
             foreach (var map in nominatedMaps)
             {
-                if (!_dbContext.nominations.Any(n => n.Name == map))
-                {
-                    nominatedMaps.Remove(map);
+                if(_dbContext.nominations is not null){
+                    if (!_dbContext.nominations.Any(n => n.Name == map))
+                    {
+                        nominatedMaps.Remove(map);
+                    }
                 }
             }
-            //nominatedMaps have been reduced. Add the m 
+            //nominatedMaps have been reduced
             foreach (var map in nominatedMaps)
             {   
-                Nominations newNomination = null;
+                Nominations? newNomination = null;
                 //CHECK FOR SESSION ID AS WELL
-                if (!_dbContext.nominations.Any(n => n.Name == map))
-                {
-                    newNomination = new Nominations
+                if(_dbContext.nominations is not null){
+                    if (!_dbContext.nominations.Any(n => n.Name == map))
                     {
-                        SessionId = 1,
-                        Name = map,
-                    };
-                }
-                if (newNomination != null)
-                {
-                    _dbContext.nominations.Add(newNomination);
+                        newNomination = new Nominations
+                        {
+                            SessionId = 1,
+                            Name = map,
+                        };
+                    }
+                    if (newNomination != null)
+                    {
+                        _dbContext.nominations.Add(newNomination);
+                    }
                 }
             }
             _dbContext.SaveChanges();
 
             //Invoke Hub to send out an update with these nominations:
-
-
             var nominations = _dbContext.nominations?.ToList();
             if (nominations == null)
             {
@@ -81,8 +69,6 @@ public class UsernominationController : ControllerBase
         }
         catch (Exception ex)
         {
-
-            // Log or handle exceptions as needed
             return BadRequest(new { Message = $"Error: {ex.Message}"});
         }
     }
