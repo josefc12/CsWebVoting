@@ -1,3 +1,6 @@
+
+## $${\color{red}THIS \space IS \space AWFUL \space DON'T \space USE \space THIS \space FOR \space ANYTHING \space SERIOUS}$$
+
 # Counter-Strike Web Voting
 
 ![Image of the nominating stage in cs_web_voting app](https://github.com/josefc12/cs_web_voting/blob/main/Images/cs_web_voting_Nominating.png)  
