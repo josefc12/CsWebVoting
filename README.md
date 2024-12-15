@@ -7,6 +7,12 @@ A web app for voting over Counter-Strike maps
 - or anything else that has a nominating stage and a voting stage in the span of ~3 minutes.  
 Check license.  
 
+🔴**WARNING:**
+This app is very primitive. All countdowns are hadled by a single Counter class and a dictionary.  
+This counter keeps on ticking even in an idle state.  
+There is no authentication/authorization in place.  
+<ins>Don't scale, don't host live. Start it when you need it and shut it down once you don't.</ins>
+
 Depends on:  
 nodejs (```sudo apt install nodejs```)  
 npm (```sudo apt install npm```)  
